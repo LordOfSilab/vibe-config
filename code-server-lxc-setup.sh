@@ -1,25 +1,32 @@
-```bash
 #!/bin/bash
 
 set -e
 
-# === System update ===
-echo "🔧 Updating system..."
+echo "🚀 Inizio setup code-server + cline CLI"
+
+# === Update sistema ===
+echo "🔧 Aggiorno i pacchetti..."
 apt update && apt upgrade -y
+
+# === Installa dipendenze ===
+echo "📦 Installo curl, sudo, git..."
 apt install -y curl sudo git
 
-# === Create dev user ===
-echo "🧠 Creating user 'coder'..."
-useradd -m -s /bin/bash coder
-usermod -aG sudo coder
-echo 'coder ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+# === Crea utente coder se non esiste ===
+if id "coder" &>/dev/null; then
+  echo "ℹ️ Utente 'coder' già esistente, salto creazione"
+else
+  echo "👤 Creo utente 'coder'..."
+  useradd -m -s /bin/bash coder
+  echo 'coder ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+fi
 
-# === Install code-server ===
-echo "🚀 Installing code-server..."
+# === Installa code-server ===
+echo "⚙️ Installo code-server..."
 curl -fsSL https://code-server.dev/install.sh | sh
 
-# === Configure password ===
-echo "🔐 Configuring code-server password..."
+# === Configuro code-server ===
+echo "🛠️ Configuro code-server con password..."
 mkdir -p /home/coder/.config/code-server
 cat <<EOF > /home/coder/.config/code-server/config.yaml
 bind-addr: 0.0.0.0:8080
@@ -31,35 +38,20 @@ chown -R coder:coder /home/coder/.config
 
 systemctl enable --now code-server@coder
 
-# === Install cline stub ===
-echo "📦 Installing dummy cline..."
+# === Dummy CLI: cline ===
+echo "🧪 Creo dummy CLI cline..."
 mkdir -p /opt/cline
 cat <<EOF > /opt/cline/cline.sh
 #!/bin/bash
-echo "CLine CLI: connected to Supabase."
+echo \"CLine CLI attivo: connesso a Supabase.\"
 EOF
 chmod +x /opt/cline/cline.sh
-ln -s /opt/cline/cline.sh /usr/local/bin/cline
+ln -sf /opt/cline/cline.sh /usr/local/bin/cline
 
-# === Install ngrok ===
-echo "🌐 Installing ngrok for code-server access..."
-curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
-echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+# === (Facoltativo) Installa ngrok ===
+echo "🌐 (Opzionale) Installo ngrok per test WAN..."
+curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | tee /etc/apt/sources.list.d/ngrok.list
 apt update && apt install -y ngrok
 
-# === Instructions ===
-echo "✅ code-server running at http://<lxc-ip>:8080"
-echo "🌍 To expose via ngrok: ngrok http 8080"
-```
-
----
-
-## 🐳 `docker-compose.yml` (Supabase)
-
-> Posizionato in `~/supabase/docker/docker-compose.yml`
-
-✅ Non serve modificare: lo script già configura `.env` per esporre su `0.0.0.0`, quindi accessibile dalla rete interna (es. `192.168.10.10:54321`).
-
-Se vuoi creare un file standalone più semplice, posso generartelo.
-
----
+echo "✅ Setup completato. code-server disponibile su http://<IP locale>:8080"
