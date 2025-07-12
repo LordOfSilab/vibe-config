@@ -3,6 +3,8 @@
 
 set -e
 
+echo "🚀 Inizio setup Supabase self-hosted"
+
 # === System update and tools ===
 echo "🔧 Updating system..."
 apt update && apt upgrade -y
@@ -35,13 +37,9 @@ docker compose up -d
 
 # === Install ngrok for remote testing ===
 echo "🌐 Installing ngrok..."
-curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
-echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list
+curl -s https://ngrok-agent.s3.amazonaws.com/ngrok.asc | tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null
+echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | tee /etc/apt/sources.list.d/ngrok.list
 apt update && apt install -y ngrok
 
-# === Instructions ===
-echo "✅ Supabase is running on LAN at http://<this-vm-ip>:54321"
-echo "🌍 To expose via ngrok: ngrok http 54321"
-```
-
----
+echo "✅ Supabase è attivo su http://<IP-locale>:54321"
+echo "🌍 Per accesso remoto temporaneo: ngrok http 54321"
