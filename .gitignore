@@ -1,0 +1,17 @@
+# Ignora file di ambiente sensibili
+.env
+.env.*
+
+# Output temporanei
+*.log
+*.bak
+
+# Dati Docker locali
+docker/volumes/
+docker/data/
+docker/db/
+
+# Cache o output vari
+__pycache__/
+*.swp
+*.tmp
