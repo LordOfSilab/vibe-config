@@ -1,3 +1,18 @@
+# 📁 Repository: setup-vibecoding
+
+Questo repository contiene gli script necessari per configurare:
+
+- ✅ Una **VM Debian** con Supabase self-hosted (via Docker)
+- ✅ Un **LXC Debian** con code-server + cline CLI
+- ✅ Accesso ai servizi da remoto (via [ngrok](https://ngrok.com/))
+- ✅ Comunicazione diretta via LAN tra Supabase e code-server
+
+⚠️ Prima di usare questi script:
+- Imposta una password sicura per code-server
+- Specifica eventuali token o chiavi nel `.env` (Supabase)
+
+Durante l'esecuzione, ti verranno chieste le configurazioni sensibili da impostare interattivamente.
+
 ## 📘 `README.md`
 
 # ⚙️ setup-vibecoding
