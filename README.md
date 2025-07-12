@@ -13,8 +13,10 @@ Questo repository contiene gli script necessari per configurare:
 
 Durante l'esecuzione, ti verranno chieste le configurazioni sensibili da impostare interattivamente.
 
+
 ## 📘 `README.md`
 
+```markdown
 # ⚙️ setup-vibecoding
 
 Script per configurare automaticamente:
@@ -44,10 +46,16 @@ cd setup-vibecoding
 sudo bash supabase-vm-setup.sh
 ```
 
+🔧 Ti verrà chiesto:
+- Il nome del progetto (usato per Docker Compose)
+
 ### 3. Sul container LXC (code-server):
 ```bash
 sudo bash code-server-lxc-setup.sh
 ```
+
+🔐 Ti verrà chiesto:
+- La password da usare per accedere a code-server
 
 ---
 
@@ -80,3 +88,5 @@ const supabase = createClient(
 - Non esporre `Studio` o `PostgreSQL` pubblicamente
 - Usa ngrok solo per test temporanei
 - Proteggi `code-server` con password o Tailscale in produzione
+```
+
