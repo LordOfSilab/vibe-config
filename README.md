@@ -1,3 +1,5 @@
+## 📘 `README.md`
+
 # ⚙️ setup-vibecoding
 
 Script per configurare automaticamente:
@@ -63,4 +65,3 @@ const supabase = createClient(
 - Non esporre `Studio` o `PostgreSQL` pubblicamente
 - Usa ngrok solo per test temporanei
 - Proteggi `code-server` con password o Tailscale in produzione
- 
